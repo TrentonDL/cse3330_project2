@@ -1,7 +1,10 @@
 QUESTION (1): Insert yourself as a New Borrower. Do not provide the Card_no in your query.
 
 	INSERT INTO		BORROWER
-	VALUES			(NULL, 'Joel Guerra', '925 Avon Street Dallas, Texas 75211', '214-929-8486');
+	VALUES			(NULL, 'Joel Guerra', '925 Avon Street Dallas, Texas 75211', '214-929-8486')
+
+	INSERT INTO		BORROWER
+	VALUES			(NULL, 'Trenton Laule', '2205 Oldham Street Forney, Texas 75126', '469-474-8823');
 
 
 QUESTION (2): Update your phone number to (837) 721-8965
