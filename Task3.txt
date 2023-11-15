@@ -1,0 +1,109 @@
+QUESTION (1): Insert yourself as a New Borrower. Do not provide the Card_no in your query.
+
+	INSERT INTO		BORROWER
+	VALUES			(NULL, 'Joel Guerra', '925 Avon Street Dallas, Texas 75211', '214-929-8486');
+
+
+QUESTION (2): Update your phone number to (837) 721-8965
+
+	UPDATE			BORROWER
+	SET 			Phone='837-721-8965'
+	WHERE			Card_No='989899';
+
+
+QUESTION (3): Increase the number of book_copies by 1 for the 'East Branch'
+
+	UPDATE			BOOK_COPIES AS BC 
+	JOIN 			LIBRARY_BRANCH AS LB
+	ON 				BC.Branch_Id=LB.Branch_Id 
+	SET 			No_Of_Copies = No_Of_Copies + 1
+	WHERE			Branch_Name='East Branch';
+
+
+QUESTION (4a): Insert a new BOOK with the following info: Title: ‘Harry Potter and the Sorcerer's Stone’ ; Book_author: ‘J.K. Rowling’ ; Publisher_name: ‘Oxford Publisheing’
+
+	INSERT INTO		PUBLISHER
+	VALUES			('Oxford Publishing', NULL, NULL);
+	  
+	INSERT INTO		BOOK
+	VALUES			(NULL, 'Harry Potter and the Sorcerer\'s Stone', 'Oxford Publishing');
+
+	INSERT INTO		BOOK_AUTHORS
+	VALUES			('23', 'J.K. Rowling');
+
+
+QUESTION (4b): You also need to insert the following branches:
+
+	INSERT INTO		LIBRARY_BRANCH
+	VALUES			(NULL, 'North Branch', '456 NW, Irving, TX 76100');
+
+	INSERT INTO		LIBRARY_BRANCH
+	VALUES			(NULL, 'UTA Branch', '123 Cooper St, Arlington TX 76101');
+
+
+QUESTION (5): Return all Books that were loaned between March 5, 2022 until March 23, 2022. List Book title and Branch name, and how many days it was borrowed for. 
+
+	SELECT		B.Title, LB.Branch_Name, DATEDIFF(BL.Returned_date, BL.Date_Out) AS DAYS_BORROWED
+	FROM		BOOK as B
+	JOIN		BOOK_LOANS AS BL
+	ON 			B.Book_Id=BL.Book_Id
+	JOIN		LIBRARY_BRANCH AS LB
+	ON 			LB.Branch_Id=BL.Branch_Id
+	WHERE		(BL.Date_Out BETWEEN '2022-03-05' AND '2022-03-23') AND BL.Returned_date IS NOT NULL;
+
+
+QUESTION (6): Return a List borrower names, that have books not returned.
+
+	SELECT		B.Name
+	FROM		BORROWER AS B, BOOK_LOANS AS BL
+	WHERE		B.Card_No=BL.Card_No AND BL.Returned_date IS NULL;
+
+
+QUESTION (7): Create a report that will return all branches with the number of books borrowed per branch separated by if they have been returned, still borrowed, or late.
+
+	SELECT		LB.Branch_Name, COUNT(*) AS BOOKS_BORROWED,
+	CASE		WHEN BL.Returned_date IS NOT NULL THEN 'Returned'
+				WHEN (BL.Returned_date IS NULL) AND (DATEDIFF(BL.Date_Out, BL.Due_Date) < 0) THEN 'Late'
+				ELSE 'Still Borrowed'
+	END 		AS BOOK_STATUS
+	FROM		LIBRARY_BRANCH AS LB
+	JOIN		BOOK_LOANS AS BL
+	ON 			LB.Branch_Id=BL.Branch_Id
+	GROUP BY	LB.Branch_Name, BOOK_STATUS;
+
+
+QUESTION (8): List all the books (title) and the maximum number of days that they were borrowed.
+
+	SELECT		B.Title, DATEDIFF(BL.Returned_date, BL.Date_Out) AS Days_Borrowed
+	FROM		BOOK AS B
+	JOIN		BOOK_LOANS AS BL
+	ON 			B.Book_Id=BL.Book_Id
+	WHERE		BL.Returned_date IS NOT NULL;
+
+
+QUESTION (9): Create a report for Ethan Martinez with all the books they borrowed. List the book title and author. Also, calculate the number of days each book was borrowed for and if any book is late being returned. Order the results by the date_out.
+	
+	SELECT		B.Title, BA.Author_Name, DATEDIFF(BL.Returned_date, BL.Date_Out) AS Days_Borrowed, 
+	CASE		WHEN (BL.Returned_date IS NULL) AND (DATEDIFF(BL.Date_Out, BL.Due_Date) < 0) THEN 'Late'
+				ELSE ' '
+	END 		AS LATE_OR_NOT
+	FROM		BOOK AS B
+	JOIN		BOOK_AUTHORS AS BA
+	ON 			B.Book_Id=BA.Book_Id
+	JOIN		BOOK_LOANS AS BL
+	ON 			BA.Book_Id=BL.Book_Id
+	JOIN		BORROWER AS BR
+	ON 			BL.Card_No=BR.Card_No
+	WHERE		BR.Name='Ethan Martinez'
+	ORDER BY	BL.Date_Out ASC;
+
+
+QUESTION (10): Return the names of all borrowers that borrowed a book from the West Branch include their addresses. 
+
+	SELECT		B.Name, B.Address
+	FROM		BORROWER AS B
+	JOIN 		BOOK_LOANS AS BL
+	ON 			B.Card_No=BL.Card_No
+	JOIN		LIBRARY_BRANCH AS LB
+	ON 			BL.Branch_Id=LB.Branch_Id
+	WHERE		LB.Branch_Name='West Branch';

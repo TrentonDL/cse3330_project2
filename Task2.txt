@@ -1,0 +1,59 @@
+To insert all of the rows into my tables, I used a method that I found online for importing CSVs files into MySQL using the LOAD DATA command. The command first needs the file path for the CSV file that I wish to import into my tables and then the table i will insert the data into. After that i needed to specity delimiters for how the command will know when to move on to the next attribute/column. I needed to specify that not all commas would be delimiters for the columns so luckily there was a method for ignoring the commas that were surrounded by parentheses. I also needed to specity how each line would be terminated in the CSV file so I had to specify the new line (\n) symbil but also had to specify the carriage return symbol (\r) in the case that the system wouldn't work the same way with new lines. Lastly, i needed to specify for the command to skip the first row of each CSV file because it did not include data that would need to be inserted into the tables. The same template worked for every import so i only needed to change the file paths and the tables that they would be imported into. 
+
+Another important thing to note was that i needed to import the files in the correct order so that i would not have any trouble with the foreign key contraints of some of the tables. 
+
+CHALLENGES: 
+
+Some of the challenges that I faced when trying to find a method for importing the rows into my tables were that I needed to figure out how to set the correct delimiters so that the import wouldnt take into account the commas that were in the address. Another challenge was the whole carriage return situation because it did give me some trouble and i had to figure out how to go about that, i was made aware some time ago that the Mac does some weird stuff with the carriage return and new lines so i needed only to remember that when setting the new line delimiters. The last challenge i had was the order in which i chose to import each of the CSV files because the order did matter because of the foreign key constraints and i was trying to import the BOOKS rows last and it was not going to work in that way. 
+
+These are the LOAD DATA commands that i used to populate the rows in the tables. I used these commands after creating each of the tables in order to fill them in with the data from the CSV files.  
+
+load data local infile '/Users/guerrajoel/Desktop/School/UTA Fall Semester 2023/CSE 3330 - Databases/Project 2/Project 2 Part 2/LMSDataset/Publisher.csv'
+into table PUBLISHER
+fields terminated by ',' enclosed by '"'
+lines terminated by '\r\n'
+ignore 1 rows;
+
+load data local infile '/Users/guerrajoel/Desktop/School/UTA Fall Semester 2023/CSE 3330 - Databases/Project 2/Project 2 Part 2/LMSDataset/Library_Branch.csv'
+into table LIBRARY_BRANCH
+fields terminated by ',' enclosed by '"'
+lines terminated by '\r\n'
+ignore 1 rows;
+
+load data local infile '/Users/guerrajoel/Desktop/School/UTA Fall Semester 2023/CSE 3330 - Databases/Project 2/Project 2 Part 2/LMSDataset/Borrower.csv'
+into table BORROWER
+fields terminated by ',' enclosed by '"'
+lines terminated by '\r\n'
+ignore 1 rows;
+
+load data local infile '/Users/guerrajoel/Desktop/School/UTA Fall Semester 2023/CSE 3330 - Databases/Project 2/Project 2 Part 2/LMSDataset/Book.csv'
+into table BOOK
+fields terminated by ',' enclosed by '"'
+lines terminated by '\r\n'
+ignore 1 rows;
+
+load data local infile '/Users/guerrajoel/Desktop/School/UTA Fall Semester 2023/CSE 3330 - Databases/Project 2/Project 2 Part 2/LMSDataset/Book_Loans.csv'
+into table BOOK_LOANS
+fields terminated by ',' enclosed by '"'
+lines terminated by '\r\n'
+ignore 1 rows;
+
+load data local infile '/Users/guerrajoel/Desktop/School/UTA Fall Semester 2023/CSE 3330 - Databases/Project 2/Project 2 Part 2/LMSDataset/Book_Copies.csv'
+into table BOOK_COPIES
+fields terminated by ',' enclosed by '"'
+lines terminated by '\r\n'
+ignore 1 rows;
+
+load data local infile '/Users/guerrajoel/Desktop/School/UTA Fall Semester 2023/CSE 3330 - Databases/Project 2/Project 2 Part 2/LMSDataset/Book_Authors.csv'
+into table BOOK_AUTHORS
+fields terminated by ',' enclosed by '"'
+lines terminated by '\r\n'
+ignore 1 rows;
+
+SELECT COUNT(*) AS COUNT FROM PUBLISHER;		--17
+SELECT COUNT(*) AS COUNT FROM LIBRARY_BRANCH;	--3
+SELECT COUNT(*) AS COUNT FROM BORROWER;			--21
+SELECT COUNT(*) AS COUNT FROM BOOK;				--21
+SELECT COUNT(*) AS COUNT FROM BOOK_LOANS;		--21
+SELECT COUNT(*) AS COUNT FROM BOOK_COPIES;		--21
+SELECT COUNT(*) AS COUNT FROM BOOK_AUTHORS;		--21
