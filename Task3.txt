@@ -81,7 +81,8 @@ QUESTION (8): List all the books (title) and the maximum number of days that the
 	FROM		BOOK AS B
 	JOIN		BOOK_LOANS AS BL
 	ON 			B.Book_Id=BL.Book_Id
-	WHERE		BL.Returned_date IS NOT NULL;
+	WHERE		BL.Returned_date IS NOT NULL
+	GROUP BY 	Days_Borrowed;
 
 
 QUESTION (9): Create a report for Ethan Martinez with all the books they borrowed. List the book title and author. Also, calculate the number of days each book was borrowed for and if any book is late being returned. Order the results by the date_out.
