@@ -100,3 +100,4 @@ root = Tk()
 root.title('Library Check-Out')
 root.geometry("400x400")
 
+root.mainloop()
