@@ -2,11 +2,13 @@ from tkinter import *
 
 import sqlite3
 
+#connect to the DB and create a table
 conn = sqlite3.connect('library.db')
 
 add_library_table_c = conn.cursor()
 
-add_library_table_c.execute('''CREATE TABLE IF NOT EXIST PUBLISHER
+#create tables
+add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS PUBLISHER
                             (
                                 Publisher_Name  VARCHAR(30)     NOT NULL,
                                 Phone           CHAR(12),
@@ -15,7 +17,7 @@ add_library_table_c.execute('''CREATE TABLE IF NOT EXIST PUBLISHER
                                 PRIMARY KEY (Publisher_Name)
                             )''')
 
-add_library_table_c.execute('''CREATE TABLE IF NOT EXIST LIBRARY_BRANCH
+add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS LIBRARY_BRANCH
                             (
                                 Branch_Id       INT             AUTO_INCREMENT,
                                 Branch_Name     VARCHAR(30)     NOT NULL,
@@ -24,7 +26,7 @@ add_library_table_c.execute('''CREATE TABLE IF NOT EXIST LIBRARY_BRANCH
                                 PRIMARY KEY (Branch_Id)
                             )''')
 
-add_library_table_c.execute('''CREATE TABLE IF NOT EXIST BORROWER
+add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS BORROWER
                             (
                                 Card_No         INT             AUTO_INCREMENT,
                                 Name            VARCHAR(30)     NOT NULL,
@@ -34,7 +36,7 @@ add_library_table_c.execute('''CREATE TABLE IF NOT EXIST BORROWER
                                 PRIMARY KEY (Card_No)
                             )''')
 
-add_library_table_c.execute('''CREATE TABLE IF NOT EXIST BOOK
+add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS BOOK
                             (
                                 Book_Id         INT             AUTO_INCREMENT,
                                 Title           VARCHAR(50)     NOT NULL,
@@ -45,7 +47,7 @@ add_library_table_c.execute('''CREATE TABLE IF NOT EXIST BOOK
                                 ON UPDATE CASCADE
                             )''')
 
-add_library_table_c.execute('''CREATE TABLE IF NOT EXIST BOOK_LOANS
+add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS BOOK_LOANS
                             (
                                 Book_Id         INT             NOT NULL,
                                 Branch_Id       INT             NOT NULL,
@@ -66,7 +68,7 @@ add_library_table_c.execute('''CREATE TABLE IF NOT EXIST BOOK_LOANS
                                 ON DELETE CASCADE ON UPDATE CASCADE
                             )''')
 
-add_library_table_c.execute('''CREATE TABLE IF NOT EXIST BOOK_COPIES
+add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS BOOK_COPIES
                             (
                                 Book_Id         INT             NOT NULL,
                                 Branch_Id       INT             NOT NULL,
@@ -78,7 +80,7 @@ add_library_table_c.execute('''CREATE TABLE IF NOT EXIST BOOK_COPIES
                                 ON DELETE CASCADE ON UPDATE CASCADE
                             )''')
 
-add_library_table_c.execute('''CREATE TABLE IF NOT EXIST BOOK_AUTHORS
+add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS BOOK_AUTHORS
                             (
                                 Book_Id         INT             NOT NULL,
                                 Author_Name     VARCHAR(30)     NOT NULL,
@@ -88,5 +90,13 @@ add_library_table_c.execute('''CREATE TABLE IF NOT EXIST BOOK_AUTHORS
                                 ON DELETE CASCADE ON UPDATE CASCADE
                             )''')
 
+#commit any changes to DB if any other connections are open
 conn.commit()
 conn.close()
+
+
+#create Tkinter Window
+root = Tk()
+root.title('Library Check-Out')
+root.geometry("400x400")
+
