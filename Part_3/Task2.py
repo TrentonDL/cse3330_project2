@@ -10,9 +10,9 @@ add_library_table_c = conn.cursor()
 #create tables
 add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS PUBLISHER
                             (
-                                Publisher_Name  VARCHAR(30)     NOT NULL,
-                                Phone           CHAR(12),
-                                Address         VARCHAR(60),
+                                Publisher_Name  VARCHAR     NOT NULL,
+                                Phone           VARCHAR,
+                                Address         VARCHAR,
 
                                 PRIMARY KEY (Publisher_Name)
                             )''')
@@ -20,27 +20,27 @@ add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS PUBLISHER
 add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS LIBRARY_BRANCH
                             (
                                 Branch_Id       INT             AUTO_INCREMENT,
-                                Branch_Name     VARCHAR(30)     NOT NULL,
-                                Branch_Address  VARCHAR(60)     NOT NULL,
+                                Branch_Name     VARCHAR     NOT NULL,
+                                Branch_Address  VARCHAR     NOT NULL,
 
                                 PRIMARY KEY (Branch_Id)
                             )''')
 
 add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS BORROWER
                             (
-                                Card_No         INT             AUTO_INCREMENT,
-                                Name            VARCHAR(30)     NOT NULL,
-                                Address         VARCHAR(60)     NOT NULL,
-                                Phone           CHAR(12)        NOT NULL,
+                                Card_No         INT         AUTO_INCREMENT,
+                                Name            VARCHAR     NOT NULL,
+                                Address         VARCHAR     NOT NULL,
+                                Phone           VARCHAR     NOT NULL,
 
                                 PRIMARY KEY (Card_No)
                             )''')
 
 add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS BOOK
                             (
-                                Book_Id         INT             AUTO_INCREMENT,
-                                Title           VARCHAR(50)     NOT NULL,
-                                Publisher_Name  VARCHAR(30)     NOT NULL,
+                                Book_Id         INT         AUTO_INCREMENT,
+                                Title           VARCHAR     NOT NULL,
+                                Publisher_Name  VARCHAR     NOT NULL,
 
                                 PRIMARY KEY (Book_Id),
                                 FOREIGN KEY (Publisher_Name) REFERENCES PUBLISHER (Publisher_Name)
@@ -83,7 +83,7 @@ add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS BOOK_COPIES
 add_library_table_c.execute('''CREATE TABLE IF NOT EXISTS BOOK_AUTHORS
                             (
                                 Book_Id         INT             NOT NULL,
-                                Author_Name     VARCHAR(30)     NOT NULL,
+                                Author_Name     VARCHAR         NOT NULL,
 
                                 PRIMARY KEY (Book_Id, Author_Name),
                                 FOREIGN KEY (Book_Id) REFERENCES BOOK (Book_Id)
@@ -101,3 +101,15 @@ root.title('Library Check-Out')
 root.geometry("400x400")
 
 root.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
