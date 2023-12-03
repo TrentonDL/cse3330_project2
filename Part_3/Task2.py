@@ -78,6 +78,10 @@ def checkout():
                        'Date_Out': date.today()
                    })
     
+    sq_cur.execute("SELECT Title FROM BOOK WHERE Book_Id = ?",(book_id.get))
+    record = sq_cur.fetchall()
+    
+
     sq_conn.commit()
     sq_conn.close()
     
