@@ -4,6 +4,12 @@ import prettytable
 
 import sqlite3
 
+import os
+
+def getcwd(fname):
+    cwd = os.path.dirname(__file__)                                                 # get the current working directory
+    path = os.path.abspath(os.path.join(cwd,fname))                                 # get the real path of the filename and join with the cwd
+    return path
 
 # THIS IS A PLACEHOLDER FUNCTION
 
@@ -46,7 +52,7 @@ def checkout_book():
         updated_copies_window.title("Updated Books Copies")
         updated_copies_window.geometry("720x360")
 
-        conne = sqlite3.connect('LMS.db')
+        conne = sqlite3.connect(getcwd("LMS.db"))
         cursor = conne.cursor()
 
 
@@ -71,7 +77,7 @@ def checkout_book():
     checkout_window.title("Check-Out a Book!")
     checkout_window.geometry("300x325")
 
-    conn = sqlite3.connect('LMS.db')
+    conn = sqlite3.connect(getcwd('LMS.db'))
     curs = conn.cursor()
 
     curs.execute("SELECT Title FROM BOOK")
@@ -123,7 +129,7 @@ def checkout_book():
 def add_new_user():
 
     def insert_new_user():
-        conn = sqlite3.connect('LMS.db')
+        conn = sqlite3.connect(getcwd("LMS.db"))
         cursor = conn.cursor()
 
         new_name = full_name.get()
@@ -186,7 +192,7 @@ def add_new_user():
 def add_books():
 
     def insert_book():
-        conn = sqlite3.connect('LMS.db')
+        conn = sqlite3.connect(getcwd("LMS.db"))
         cursor = conn.cursor()
 
         new_book = book_title.get()
@@ -233,7 +239,7 @@ def add_books():
     book_title = Entry(add_book_window, width = 30)
     book_title.grid(row = 0, column = 1, padx = 20)
 
-    conn = sqlite3.connect('LMS.db')
+    conn = sqlite3.connect(getcwd("LMS.db"))
     cursor = conn.cursor()
 
     cursor.execute("SELECT Publisher_Name FROM PUBLISHER")
@@ -299,7 +305,7 @@ def loan_records_by_book():
     label1 = Label(select_book_window, text="Select a book to search loan records: ")
     label1.pack(pady=10)
 
-    conn = sqlite3.connect('LMS.db')
+    conn = sqlite3.connect(getcwd("LMS.db"))
     curs = conn.cursor()
 
     curs.execute("SELECT Title FROM BOOK")
