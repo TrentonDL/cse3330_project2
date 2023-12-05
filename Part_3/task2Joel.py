@@ -25,17 +25,15 @@ def checkout_book():
 
         selected_title = selected_book.get()
     
-        # Execute the query for Book_Id after the user has made a selection
         book_id_query = "SELECT Book_Id FROM BOOK WHERE Title = ?"
         curs.execute(book_id_query, (selected_title,))
-        book_number = curs.fetchone()  # Use fetchone() instead of fetchall() if expecting one result
+        book_number = curs.fetchone()
 
         selected_libr = selected_branch.get()
 
-        # Execute the query for Book_Id after the user has made a selection
         branch_id_query = "SELECT Branch_Id FROM LIBRARY_BRANCH WHERE Branch_Name = ?"
         curs.execute(branch_id_query, (selected_libr,))
-        branch_number = curs.fetchone()  # Use fetchone() instead of fetchall() if expecting one result
+        branch_number = curs.fetchone()
 
         curs.execute("INSERT INTO BOOK_LOANS VALUES(:Book_Id, :Branch_Id, :Card_No, :Date_Out, :Due_Date, :Returned_Date, :Late)",
             {
@@ -75,7 +73,6 @@ def checkout_book():
 
         conne.close()
 
-    # Create a new window
     checkout_window = Toplevel(root)
     checkout_window.title("Check-Out a Book!")
     checkout_window.geometry("300x325")
@@ -127,7 +124,7 @@ def checkout_book():
     confirm_button.pack(pady=10)
 
     checkout_window.grab_set()
-    root.wait_window(checkout_window)  # Wait for the checkout window to be closed before continuing
+    root.wait_window(checkout_window)
 
 def add_new_user():
 
@@ -374,7 +371,6 @@ def late_report_by_range():
     date_entry2 = DateEntry(select_range_window, width=12, borderwidth=2)
     date_entry2.pack(pady=5)
 
-    # Add a button to trigger the search function
     search_button = Button(select_range_window, text="Search", command=search_with_dates)
     search_button.pack(pady=10)
 
@@ -566,7 +562,6 @@ def view_options():
 
 
 
-#create Tkinter Window
 
 root = Tk()
 root.title('Library Main Menu')
@@ -575,7 +570,6 @@ root.geometry("400x500")
 root.columnconfigure(0, weight=1)
 root.columnconfigure(1, weight=1)
 
-# Create six buttons and add them to the window
 button1 = Button(root, text="Check-Out A Book", command=checkout_book)
 button2 = Button(root, text="Add A New User", command=add_new_user)
 button3 = Button(root, text="Add A New Book", command=add_books)
@@ -583,7 +577,6 @@ button4 = Button(root, text="Loan Records By Book Title", command=loan_records_b
 button5 = Button(root, text="Find Late Books By Date Range", command=late_report_by_range)
 button6 = Button(root, text="Book Loan Information", command=view_options)
 
-# Use the grid manager to arrange the buttons in a grid layout
 button1.grid(row=0, column=0, sticky="nsew")
 button2.grid(row=0, column=1, sticky="nsew")
 button3.grid(row=1, column=0, sticky="nsew")
@@ -591,7 +584,6 @@ button4.grid(row=1, column=1, sticky="nsew")
 button5.grid(row=2, column=0, sticky="nsew")
 button6.grid(row=2, column=1, sticky="nsew")
 
-# Make buttons expand to fill the available space
 for i in range(3):
     root.rowconfigure(i, weight=1)
 
